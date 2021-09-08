@@ -4,9 +4,9 @@ import { MdFavoriteBorder } from 'react-icons/md'
 import { Button, Img, ImgWrapper, Article } from './style'
 
 interface PhotoCardProps {
-  id: any
+  id?: any
   likes?: number
-  src: string
+  src?: string
 }
 
 const DEFAULT_IMAGE =

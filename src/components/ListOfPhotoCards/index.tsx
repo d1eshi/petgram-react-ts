@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PhotoCard } from '@/components/PhotoCard'
+import { PhotoCard } from '../PhotoCard'
 
 export function ListOfPhotoCards() {
   return (
