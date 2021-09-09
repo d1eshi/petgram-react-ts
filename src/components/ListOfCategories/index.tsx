@@ -23,7 +23,7 @@ export function ListOfCategories() {
     return () => document.removeEventListener('scroll', onScroll)
   }, [showFixed])
 
-  const renderList = fixed => (
+  const renderList = (fixed: boolean = false) => (
     <List fixed={fixed}>
       {categories.map(category => (
         <Item key={category.id}>

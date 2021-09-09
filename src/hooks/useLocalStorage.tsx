@@ -1,5 +1,5 @@
 import React from 'react'
-export const useLocalStorage = (key: string, initialValue: string) => {
+export const useLocalStorage = (key: string, initialValue: string | boolean) => {
   // see if has been liked
   const [storedValue, setValue] = React.useState(() => {
     try {

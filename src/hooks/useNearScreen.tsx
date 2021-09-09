@@ -1,8 +1,11 @@
 import React from 'react'
 
 export function useNearScreen() {
-  const element = React.useRef(null)
+  const ref = React.useRef<any>(null)
+
   const [show, setShow] = React.useState(false)
+
+  console.log(typeof ref)
 
   React.useEffect(() => {
     Promise.resolve(
@@ -20,9 +23,9 @@ export function useNearScreen() {
         }
       })
 
-      observer.observe(element.current)
+      observer.observe(ref.current)
     })
-  }, [element])
+  }, [ref])
 
-  return [show, element]
+  return [show, ref]
 }
