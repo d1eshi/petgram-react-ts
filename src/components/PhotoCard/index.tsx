@@ -13,17 +13,44 @@ const DEFAULT_IMAGE =
   'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
 
 export function PhotoCard({ id, likes = 0, src = DEFAULT_IMAGE }: PhotoCardProps) {
-  return (
-    <Article>
-      <a href={`/detail/${id}`}>
-        <ImgWrapper>
-          <Img src={src} />
-        </ImgWrapper>
-      </a>
+  const ref = React.useRef(null)
+  const [show, setShow] = React.useState<boolean>(false)
 
-      <Button>
-        <MdFavoriteBorder size="2rem" /> {likes} likes!
-      </Button>
+  React.useEffect(() => {
+    Promise.resolve(
+      typeof window.IntersectionObserver !== 'undefined'
+        ? window.IntersectionObserver
+        : import('intersection-observer')
+    ).then(() => {
+      const observer = new window.IntersectionObserver(entries => {
+        const { isIntersecting } = entries[0]
+
+        if (isIntersecting) {
+          setShow(true)
+
+          observer.disconnect()
+        }
+      })
+
+      observer.observe(ref.current)
+    })
+  }, [ref])
+
+  return (
+    <Article ref={ref}>
+      {show && (
+        <>
+          <a href={`/detail/${id}`}>
+            <ImgWrapper>
+              <Img src={src} />
+            </ImgWrapper>
+          </a>
+
+          <Button>
+            <MdFavoriteBorder size="2rem" /> {likes} likes!
+          </Button>
+        </>
+      )}
     </Article>
   )
 }

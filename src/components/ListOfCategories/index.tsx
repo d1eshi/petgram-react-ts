@@ -1,27 +1,15 @@
 import React from 'react'
 
 import { Category } from '../Category'
+import { Loader } from '../Loader'
+import { useCategoriesData } from '../../hooks/useCategoriesData'
 
 import { List, Item } from './style'
 
-interface ICategories {
-  id: number
-  name: string
-  emoji: string
-  cover: string
-  path: string
-}
-
 export function ListOfCategories() {
-  const [categories, setCategories] = React.useState<ICategories[]>([])
+  const { categories, loading, error } = useCategoriesData()
 
   const [showFixed, setShowFixed] = React.useState(false)
-
-  React.useEffect(() => {
-    fetch('https://petgram-server-d1eshi.vercel.app/categories')
-      .then(res => res.json())
-      .then(setCategories)
-  }, [])
 
   React.useEffect(() => {
     const onScroll = () => {
@@ -36,7 +24,7 @@ export function ListOfCategories() {
   }, [showFixed])
 
   const renderList = fixed => (
-    <List className={fixed ? 'fixed' : ''}>
+    <List fixed={fixed}>
       {categories.map(category => (
         <Item key={category.id}>
           <Category {...category} />
@@ -47,7 +35,8 @@ export function ListOfCategories() {
 
   return (
     <>
-      {renderList()}
+      {loading && <Loader />}
+      {error ? <p>Error!</p> : renderList()}
       {showFixed && renderList(true)}
     </>
   )
